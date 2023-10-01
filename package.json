@@ -6,19 +6,93 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "check:lint": "next lint",
+    "fix:lint": "next lint --fix",
+    "check:format": "prettier --check --cache .",
+    "fix:format": "prettier --write --cache .",
+    "check:styles": "stylelint --cache ./**/*.css",
+    "fix:styles": "stylelint --fix --cache ./**/*.css",
+    "check:types": "tsc",
+    "prepare": "husky install"
   },
   "dependencies": {
+    "next": "latest",
     "react": "latest",
-    "react-dom": "latest",
-    "next": "latest"
+    "react-dom": "latest"
   },
   "devDependencies": {
-    "typescript": "latest",
-    "@types/react": "latest",
+    "@alex-grover/eslint-config": "^0.0.5",
+    "@alex-grover/prettier-config": "0.0.2",
+    "@alex-grover/stylelint-config": "^0.0.1",
+    "@csstools/postcss-global-data": "^2.1.0",
     "@types/node": "latest",
+    "@types/react": "latest",
     "@types/react-dom": "latest",
-    "eslint": "latest",
-    "eslint-config-next": "latest"
+    "@typescript-eslint/eslint-plugin": "^6.7.3",
+    "@typescript-eslint/parser": "^6.7.3",
+    "eslint": "^8.50.0",
+    "eslint-config-next": "latest",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-import-resolver-typescript": "^3.6.1",
+    "eslint-plugin-css-modules": "^2.11.4",
+    "eslint-plugin-import": "^2.28.1",
+    "husky": "^8.0.0",
+    "lint-staged": "^14.0.1",
+    "postcss-flexbugs-fixes": "^5.0.2",
+    "postcss-preset-env": "^9.1.4",
+    "prettier": "3.0.3",
+    "stylelint": "^15.10.3",
+    "stylelint-config-css-modules": "^4.3.0",
+    "stylelint-config-recess-order": "^4.3.0",
+    "stylelint-config-standard": "^34.0.0",
+    "typescript": "latest"
+  },
+  "postcss": {
+    "plugins": [
+      [
+        "@csstools/postcss-global-data",
+        {
+          "files": [
+            "node_modules/@alex-grover/styles/media.css"
+          ]
+        }
+      ],
+      "postcss-flexbugs-fixes",
+      [
+        "postcss-preset-env",
+        {
+          "autoprefixer": {
+            "flexbox": "no-2009"
+          },
+          "stage": 3,
+          "features": {
+            "custom-media-queries": true,
+            "custom-properties": false
+          }
+        }
+      ]
+    ]
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.css": [
+      "stylelint --fix",
+      "prettier --write"
+    ],
+    "*.!(ts|tsx|css)": "prettier --write --ignore-unknown"
+  },
+  "eslintConfig": {
+    "extends": [
+      "@alex-grover",
+      "next/core-web-vitals"
+    ]
+  },
+  "prettier": "@alex-grover/prettier-config",
+  "stylelint": {
+    "extends": "@alex-grover/stylelint-config"
   }
 }
