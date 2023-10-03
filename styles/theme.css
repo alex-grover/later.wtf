@@ -1,18 +1,20 @@
 :root {
-  --background: white;
-  --foreground: black;
-  --muted: #595959;
-  --border: #333;
+  --background: #f4f5f8;
+  --foreground: #fff;
+  --text: #282a2f;
+  --muted: #666768;
+  --border: #edeef0;
 }
 
 [data-theme='dark'] {
-  --background: black;
-  --foreground: white;
-  --muted: #959595;
-  --border: #333;
+  --background: #181921;
+  --foreground: #20212d;
+  --text: #fefffe;
+  --muted: #828182;
+  --border: #2f3242;
 }
 
 body {
-  color: var(--foreground);
+  color: var(--text);
   background: var(--background);
 }
