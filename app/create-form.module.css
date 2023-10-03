@@ -1,0 +1,19 @@
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.textarea {
+  padding: 12px 20px;
+  margin-bottom: 10px;
+  resize: none;
+  background: var(--foreground);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.button {
+  align-self: flex-end;
+  width: 140px;
+  padding: 6px 12px;
+}

@@ -1,4 +1,4 @@
 .button {
   padding: 6px;
-  border: 0;
+  border: 1px solid var(--border);
 }

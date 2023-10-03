@@ -1,5 +1,6 @@
 :root {
-  --radius: 4px;
+  --radius: 8px;
+  --radius-full: 9999px;
 }
 
 body {
@@ -20,7 +21,7 @@ h6 {
 button {
   color: var(--text);
   cursor: pointer;
-  background: inherit;
+  background: var(--foreground);
   border: 1px solid var(--border);
   border-radius: var(--radius);
 }
@@ -28,5 +29,4 @@ button {
 button:disabled {
   color: var(--muted);
   cursor: auto;
-  border-color: var(--muted);
 }

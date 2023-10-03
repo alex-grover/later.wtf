@@ -1,6 +1,6 @@
 {
   "name": "later.wtf",
-  "version": "0.1.0",
+  "type": "module",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -28,6 +28,7 @@
     "react": "latest",
     "react-dom": "latest",
     "react-qr-code": "^2.0.12",
+    "swr": "^2.2.4",
     "viem": "^1.15.0",
     "zod": "^3.22.3"
   },
