@@ -1,15 +1,19 @@
 .form {
   display: flex;
   flex-direction: column;
+  gap: 10px;
 }
 
 .textarea {
   padding: 12px 20px;
-  margin-bottom: 10px;
   resize: none;
   background: var(--foreground);
   border: 1px solid var(--border);
   border-radius: var(--radius);
+}
+
+.image {
+  color: var(--muted);
 }
 
 .button {

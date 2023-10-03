@@ -18,6 +18,10 @@ h6 {
     sans-serif;
 }
 
+a {
+  color: var(--text);
+}
+
 button {
   color: var(--text);
   cursor: pointer;

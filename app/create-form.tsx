@@ -38,24 +38,33 @@ export default function CreateForm() {
   )
 
   return (
-    <form onSubmit={handleSubmit} className={styles.form}>
+    <>
       <Profile fid={signer?.status === 'approved' ? signer.fid : null} />
-      <textarea
-        placeholder="What do you want to cast?"
-        className={styles.textarea}
-        disabled={signer?.status !== 'approved'}
-        minLength={1}
-        maxLength={320}
-        rows={5}
-      />
-      <button
-        type="submit"
-        disabled={['loading', 'success'].includes(state)}
-        className={styles.button}
-      >
-        {buttonContent(state)}
-      </button>
-    </form>
+      <form onSubmit={handleSubmit} className={styles.form}>
+        <textarea
+          placeholder="What do you want to cast?"
+          className={styles.textarea}
+          disabled={signer?.status !== 'approved'}
+          minLength={1}
+          maxLength={320}
+          rows={5}
+        />
+        <div className={styles.image}>
+          Image upload coming soon! For now, please upload images directly at{' '}
+          <a href="https://imgur.com" target="_blank">
+            Imgur
+          </a>{' '}
+          and paste the image link into the cast body.
+        </div>
+        <button
+          type="submit"
+          disabled={['loading', 'success'].includes(state)}
+          className={styles.button}
+        >
+          {buttonContent(state)}
+        </button>
+      </form>
+    </>
   )
 }
 
