@@ -14,10 +14,10 @@ export default function LoginDialog() {
     if (!signer) void signIn()
   }, [isLoading, signer, signIn])
 
-  if (isLoading) return null
+  if (!signer) return null
 
   return (
-    <Dialog.Root open={signer?.status !== 'approved'}>
+    <Dialog.Root open={signer.status !== 'approved'}>
       <Dialog.Portal>
         <Dialog.Overlay />
         <Dialog.Content>
@@ -28,14 +28,14 @@ export default function LoginDialog() {
           </Dialog.Description>
           <QRCode
             value={
-              signer?.status === 'pending_approval'
+              signer.status === 'pending_approval'
                 ? signer.signer_approval_url
                 : ''
             }
           />
           <a
             href={
-              signer?.status === 'pending_approval'
+              signer.status === 'pending_approval'
                 ? signer.signer_approval_url
                 : ''
             }
