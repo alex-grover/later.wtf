@@ -7,6 +7,7 @@ export default function HomePage() {
   return (
     <>
       <header className={styles.header}>
+        <h1>later.wtf</h1>
         <ThemeToggle />
       </header>
       <main className={styles.main}>
