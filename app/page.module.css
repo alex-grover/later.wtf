@@ -1,0 +1,20 @@
+.header,
+.main {
+  --header-height: 72px;
+
+  padding: 0 20px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  height: var(--header-height);
+}
+
+.main {
+  max-width: 1000px;
+  height: calc(100dvh - var(--header-height));
+  padding: 10px;
+  margin: 0 auto;
+}

@@ -1,0 +1,32 @@
+:root {
+  --radius: 4px;
+}
+
+body {
+  font-family: inter, roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans',
+    arial, sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: avenir, montserrat, corbel, 'URW Gothic', source-sans-pro,
+    sans-serif;
+}
+
+button {
+  color: var(--foreground);
+  cursor: pointer;
+  background: inherit;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+button:disabled {
+  color: var(--muted);
+  cursor: auto;
+  border-color: var(--muted);
+}

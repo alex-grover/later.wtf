@@ -1,0 +1,18 @@
+:root {
+  --background: white;
+  --foreground: black;
+  --muted: #595959;
+  --border: #333;
+}
+
+[data-theme='dark'] {
+  --background: black;
+  --foreground: white;
+  --muted: #959595;
+  --border: #333;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+}
