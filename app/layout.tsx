@@ -1,5 +1,6 @@
 import '@alex-grover/styles/reset.css'
 import { Analytics } from '@vercel/analytics/react'
+import { NeynarProvider } from 'neynar-next'
 import { PropsWithChildren } from 'react'
 import ThemeProvider from '@/components/theme'
 import '@/styles/global.css'
@@ -10,7 +11,9 @@ export default function RootLayout({ children }: PropsWithChildren) {
     <html lang="en" suppressHydrationWarning>
       <head />
       <body>
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          <NeynarProvider>{children}</NeynarProvider>
+        </ThemeProvider>
         <Analytics />
       </body>
     </html>

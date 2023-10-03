@@ -1,4 +1,5 @@
 import { ThemeToggle } from '@/components/theme'
+import LoginDialog from './login-dialog'
 import styles from './page.module.css'
 
 export default function HomePage() {
@@ -8,6 +9,7 @@ export default function HomePage() {
         <ThemeToggle />
       </header>
       <main className={styles.main}></main>
+      <LoginDialog />
     </>
   )
 }

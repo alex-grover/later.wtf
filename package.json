@@ -18,12 +18,18 @@
   },
   "dependencies": {
     "@alex-grover/styles": "^0.0.1",
+    "@radix-ui/react-dialog": "^1.0.5",
+    "@t3-oss/env-nextjs": "^0.6.1",
     "@vercel/analytics": "^1.0.2",
     "lucide-react": "^0.284.0",
     "next": "latest",
     "next-themes": "^0.2.1",
+    "neynar-next": "^0.2.3",
     "react": "latest",
-    "react-dom": "latest"
+    "react-dom": "latest",
+    "react-qr-code": "^2.0.12",
+    "viem": "^1.15.0",
+    "zod": "^3.22.3"
   },
   "devDependencies": {
     "@alex-grover/eslint-config": "^0.0.5",
@@ -50,7 +56,8 @@
     "stylelint-config-css-modules": "^4.3.0",
     "stylelint-config-recess-order": "^4.3.0",
     "stylelint-config-standard": "^34.0.0",
-    "typescript": "latest"
+    "typescript": "latest",
+    "vercel": "^32.4.0"
   },
   "postcss": {
     "plugins": [
