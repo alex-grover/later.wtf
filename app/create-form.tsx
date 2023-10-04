@@ -3,6 +3,7 @@
 import channels from 'farcaster-channels#9794f78196418bed5624283ede996f41632e6ea4/warpcast.json'
 import { useSigner } from 'neynar-next'
 import { FormEvent, useCallback, useState } from 'react'
+import { mutate } from 'swr'
 import styles from './create-form.module.css'
 import Profile from './profile'
 
@@ -38,6 +39,11 @@ export default function CreateForm() {
         }
 
         setState('success')
+        await mutate(
+          (key) => typeof key === 'string' && key.startsWith('/api/casts'),
+          undefined,
+          { revalidate: true },
+        )
       }
 
       void submit()

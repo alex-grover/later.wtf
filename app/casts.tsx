@@ -6,6 +6,8 @@ import { User } from 'neynar-next/server'
 import useSWR from 'swr'
 import useSWRImmutable from 'swr/immutable'
 import { GetCastsError, GetCastsResponse } from '@/app/api/casts/route'
+import partition from '@/lib/partition'
+import styles from './casts.module.css'
 
 export default function Casts() {
   const { signer } = useSigner()
@@ -26,23 +28,26 @@ export default function Casts() {
   if (isLoading) return 'Loading...' // TODO: loading spinner
   if (error) return error.fieldErrors.signerUuid?.[0] ?? 'An error occurred' // TODO: better error display
 
+  const [scheduledCasts, postedCasts] = data
+    ? partition(data, (cast) => !cast.hash)
+    : [[], []]
+
   return (
     <>
       <div>
-        <h2>Scheduled Casts</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Scheduled For</th>
-              <th>Text</th>
-              <th>Channel</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data
-              ?.filter((cast) => !cast.hash)
-              .map((cast) => (
+        <h2 className={styles.heading}>Scheduled Casts</h2>
+        {scheduledCasts.length ? (
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Scheduled For</th>
+                <th>Text</th>
+                <th>Channel</th>
+              </tr>
+            </thead>
+            <tbody>
+              {scheduledCasts.map((cast) => (
                 <tr key={cast.id}>
                   <td>{cast.id}</td>
                   <td>{cast.scheduled_for}</td>
@@ -55,25 +60,27 @@ export default function Casts() {
                   </td>
                 </tr>
               ))}
-          </tbody>
-        </table>
+            </tbody>
+          </table>
+        ) : (
+          <div>None yet!</div>
+        )}
       </div>
       <div>
-        <h2>Posted Casts</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Posted At</th>
-              <th>Text</th>
-              <th>Channel</th>
-              <th>Warpcast Link</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data
-              ?.filter((cast) => cast.hash)
-              .map((cast) => (
+        <h2 className={styles.heading}>Posted Casts</h2>
+        {postedCasts.length ? (
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Posted At</th>
+                <th>Text</th>
+                <th>Channel</th>
+                <th>Warpcast Link</th>
+              </tr>
+            </thead>
+            <tbody>
+              {postedCasts.map((cast) => (
                 <tr key={cast.id}>
                   <td>{cast.id}</td>
                   <td>{cast.scheduled_for}</td>
@@ -98,8 +105,11 @@ export default function Casts() {
                   </td>
                 </tr>
               ))}
-          </tbody>
-        </table>
+            </tbody>
+          </table>
+        ) : (
+          <div>None yet!</div>
+        )}
       </div>
     </>
   )
