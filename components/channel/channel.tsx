@@ -19,7 +19,7 @@ export default function Channel({ channel, parent_url }: ChannelProps) {
           className={styles.image}
         />
       )}
-      <span>{channel?.name ?? parent_url ?? 'No channel'}</span>
+      <span>{channel?.name ?? parent_url}</span>
     </div>
   )
 }
