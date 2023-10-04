@@ -26,6 +26,8 @@ export default function CreateForm() {
         if (scheduleFor <= new Date()) return // TODO: error message
         body.set('scheduleFor', scheduleFor.toISOString())
 
+        body.set('signerUuid', signer.signer_uuid)
+
         setState('loading')
         const response = await fetch('/api/casts', { method: 'POST', body })
 

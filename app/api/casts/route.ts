@@ -11,6 +11,7 @@ const CreatePostInput = z.object({
       message: 'datetime must be in the future',
     }),
   channel: z.string().optional(),
+  signerUuid: z.string().uuid(),
 })
 
 export type CreatePostResponse = Cast
@@ -25,7 +26,7 @@ export async function POST(request: Request) {
   if (!parseResult.success)
     return NextResponse.json(parseResult.error.flatten(), { status: 422 })
 
-  const { text, scheduleFor, channel } = parseResult.data
+  const { text, scheduleFor, channel, signerUuid } = parseResult.data
 
   const cast = await db
     .insertInto('cast')
@@ -33,6 +34,7 @@ export async function POST(request: Request) {
       text,
       scheduled_for: scheduleFor,
       channel,
+      signer_uuid: signerUuid,
     })
     .returningAll()
     .executeTakeFirstOrThrow()
