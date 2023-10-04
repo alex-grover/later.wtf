@@ -20,6 +20,9 @@ dependencies:
   '@vercel/analytics':
     specifier: ^1.0.2
     version: 1.0.2
+  dayjs:
+    specifier: ^1.11.10
+    version: 1.11.10
   farcaster-channels#9794f78196418bed5624283ede996f41632e6ea4:
     specifier: github:neynarxyz/farcaster-channels#9794f78196418bed5624283ede996f41632e6ea4
     version: github.com/neynarxyz/farcaster-channels/9794f78196418bed5624283ede996f41632e6ea4
@@ -3225,6 +3228,13 @@ packages:
         integrity: sha512-sdQSFB7+llfUcQHUQO3+B8ERRj0Oa4w9POWMI/puGtuf7gFywGmkaLCElnudfTiKZV+NvHqL0ifzdrI8Ro7ESA==,
       }
     dev: true
+
+  /dayjs@1.11.10:
+    resolution:
+      {
+        integrity: sha512-vjAczensTgRcqDERK0SR2XMwsF/tSvnvlv6VcF2GIhg6Sx4yOIt/irsr1RDJsKiIyBzJDpCoXiWWq28MqH2cnQ==,
+      }
+    dev: false
 
   /debug@3.2.7:
     resolution:

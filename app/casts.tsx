@@ -1,13 +1,19 @@
 'use client'
 
+import dayjs from 'dayjs'
+import LocalizedFormat from 'dayjs/plugin/localizedFormat'
 import channels from 'farcaster-channels#9794f78196418bed5624283ede996f41632e6ea4/warpcast.json'
 import { useSigner } from 'neynar-next'
 import { User } from 'neynar-next/server'
 import useSWR from 'swr'
 import useSWRImmutable from 'swr/immutable'
 import { GetCastsError, GetCastsResponse } from '@/app/api/casts/route'
+import Channel from '@/components/channel'
+import Table from '@/components/table/table'
 import partition from '@/lib/partition'
 import styles from './casts.module.css'
+
+dayjs.extend(LocalizedFormat)
 
 export default function Casts() {
   const { signer } = useSigner()
@@ -38,31 +44,35 @@ export default function Casts() {
       <div>
         <h2 className={styles.heading}>Scheduled Casts</h2>
         {scheduledCasts.length ? (
-          <table>
+          <Table>
             <thead>
               <tr>
-                <th>ID</th>
-                <th>Scheduled For</th>
-                <th>Text</th>
-                <th>Channel</th>
+                <th className={styles.id}>ID</th>
+                <th className={styles.date}>Scheduled For</th>
+                <th className={styles.text}>Text</th>
+                <th className={styles.channel}>Channel</th>
               </tr>
             </thead>
             <tbody>
               {scheduledCasts.map((cast) => (
                 <tr key={cast.id}>
-                  <td>{cast.id}</td>
-                  <td>{cast.scheduled_for}</td>
-                  <td>{cast.text}</td>
-                  <td>
-                    {channels.find(
-                      (channel) => channel.parent_url === cast.channel,
-                    )?.name ?? 'Unknown channel'}
-                    {/* TODO: display channel image */}
+                  <td className={styles.id}>{cast.id}</td>
+                  <td className={styles.date}>
+                    {dayjs(cast.scheduled_for).format('lll')}
+                  </td>
+                  <td className={styles.text}>{cast.text}</td>
+                  <td className={styles.channel}>
+                    <Channel
+                      channel={channels.find(
+                        (channel) => channel.parent_url === cast.channel,
+                      )}
+                      parent_url={cast.channel}
+                    />
                   </td>
                 </tr>
               ))}
             </tbody>
-          </table>
+          </Table>
         ) : (
           <div>None yet!</div>
         )}
@@ -70,29 +80,33 @@ export default function Casts() {
       <div>
         <h2 className={styles.heading}>Posted Casts</h2>
         {postedCasts.length ? (
-          <table>
+          <Table>
             <thead>
               <tr>
-                <th>ID</th>
-                <th>Posted At</th>
-                <th>Text</th>
-                <th>Channel</th>
-                <th>Warpcast Link</th>
+                <th className={styles.id}>ID</th>
+                <th className={styles.date}>Posted At</th>
+                <th className={styles.text}>Text</th>
+                <th className={styles.channel}>Channel</th>
+                <th className={styles.link}>Warpcast Link</th>
               </tr>
             </thead>
             <tbody>
               {postedCasts.map((cast) => (
                 <tr key={cast.id}>
-                  <td>{cast.id}</td>
-                  <td>{cast.scheduled_for}</td>
-                  <td>{cast.text}</td>
-                  <td>
-                    {channels.find(
-                      (channel) => channel.parent_url === cast.channel,
-                    )?.name ?? 'Unknown channel'}
-                    {/* TODO: display channel image */}
+                  <td className={styles.id}>{cast.id}</td>
+                  <td className={styles.date}>
+                    {dayjs(cast.scheduled_for).format('lll')}
                   </td>
-                  <td>
+                  <td className={styles.text}>{cast.text}</td>
+                  <td className={styles.channel}>
+                    <Channel
+                      channel={channels.find(
+                        (channel) => channel.parent_url === cast.channel,
+                      )}
+                      parent_url={cast.channel}
+                    />
+                  </td>
+                  <td className={styles.link}>
                     {user && (
                       <a
                         href={`https://warpcast.com/${user.username}/${cast.hash}`}
@@ -107,7 +121,7 @@ export default function Casts() {
                 </tr>
               ))}
             </tbody>
-          </table>
+          </Table>
         ) : (
           <div>None yet!</div>
         )}

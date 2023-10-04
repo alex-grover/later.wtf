@@ -1,0 +1,9 @@
+.container {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.image {
+  border-radius: var(--radius);
+}

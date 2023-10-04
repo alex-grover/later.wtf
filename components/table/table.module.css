@@ -1,0 +1,34 @@
+.container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+
+.table > thead {
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+.table th,
+.table td {
+  padding: 16px 0;
+}
+
+.table th:first-child,
+.table td:first-child {
+  padding: 16px 0 16px 16px;
+}
+
+.table th:last-child,
+.table td:last-child {
+  padding: 16px 16px 16px 0;
+}
+
+.table > tbody > tr:not(:last-child) {
+  border-bottom: 1px solid var(--border);
+}
