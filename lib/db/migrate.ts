@@ -2,14 +2,11 @@ import fs from 'fs/promises'
 import path, { dirname } from 'path'
 import { fileURLToPath } from 'url'
 import { createEnv } from '@t3-oss/env-nextjs'
-import dotenv from 'dotenv'
+import 'dotenv/config'
 import { Migrator, FileMigrationProvider, Kysely } from 'kysely'
 import { NeonDialect } from 'kysely-neon'
 import ws from 'ws'
 import { z } from 'zod'
-import { Database } from '@/lib/db/schema'
-
-dotenv.config({ path: '.env.local' })
 
 async function migrateToLatest() {
   const env = createEnv({
@@ -19,7 +16,8 @@ async function migrateToLatest() {
     experimental__runtimeEnv: {},
   })
 
-  const db = new Kysely<Database>({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const db = new Kysely<any>({
     dialect: new NeonDialect({
       connectionString: env.DATABASE_URL,
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment

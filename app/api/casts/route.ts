@@ -1,9 +1,10 @@
 import { NextResponse } from 'next/server'
 import { z } from 'zod'
+import db, { Cast } from '@/lib/db'
 
 const CreatePostInput = z.object({
   text: z.string().min(1).max(320),
-  datetime: z
+  scheduleFor: z
     .string()
     .pipe(z.coerce.date())
     .refine((val) => val >= new Date(), {
@@ -12,7 +13,7 @@ const CreatePostInput = z.object({
   channel: z.string().optional(),
 })
 
-export type CreatePostResponse = unknown
+export type CreatePostResponse = Cast
 
 export type CreatePostError = z.inferFlattenedErrors<typeof CreatePostInput>
 
@@ -24,8 +25,17 @@ export async function POST(request: Request) {
   if (!parseResult.success)
     return NextResponse.json(parseResult.error.flatten(), { status: 422 })
 
-  // TODO: save to DB
-  console.log(parseResult.data)
+  const { text, scheduleFor, channel } = parseResult.data
 
-  return NextResponse.json<CreatePostResponse>({}, { status: 201 })
+  const cast = await db
+    .insertInto('cast')
+    .values({
+      text,
+      scheduled_for: scheduleFor,
+      channel,
+    })
+    .returningAll()
+    .executeTakeFirstOrThrow()
+
+  return NextResponse.json<CreatePostResponse>(cast, { status: 201 })
 }

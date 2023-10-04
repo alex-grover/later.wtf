@@ -15,6 +15,7 @@
     "fix:styles": "stylelint --fix --cache ./**/*.css",
     "check:types": "tsc",
     "migrate": "tsx lib/db/migrate.ts",
+    "generate": "kysely-codegen --dialect postgres",
     "prepare": "husky install"
   },
   "dependencies": {
@@ -57,7 +58,9 @@
     "eslint-plugin-css-modules": "^2.11.4",
     "eslint-plugin-import": "^2.28.1",
     "husky": "^8.0.0",
+    "kysely-codegen": "^0.10.1",
     "lint-staged": "^14.0.1",
+    "pg": "^8.11.3",
     "postcss-flexbugs-fixes": "^5.0.2",
     "postcss-preset-env": "^9.1.4",
     "prettier": "3.0.3",

@@ -1,9 +1,9 @@
 import { Kysely } from 'kysely'
+import { DB } from 'kysely-codegen'
 import { NeonDialect } from 'kysely-neon'
 import env from '@/lib/env'
-import { Database } from './schema'
 
-const db = new Kysely<Database>({
+const db = new Kysely<DB>({
   dialect: new NeonDialect({
     connectionString: env.DATABASE_URL,
   }),
