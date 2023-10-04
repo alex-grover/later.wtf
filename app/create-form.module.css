@@ -16,6 +16,19 @@
   color: var(--muted);
 }
 
+.options {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.label {
+  display: flex;
+  flex: 0 0 50%;
+  flex-direction: column;
+}
+
 .button {
   align-self: flex-end;
   width: 140px;

@@ -17,6 +17,9 @@ dependencies:
   '@vercel/analytics':
     specifier: ^1.0.2
     version: 1.0.2
+  farcaster-channels#9794f78196418bed5624283ede996f41632e6ea4:
+    specifier: github:neynarxyz/farcaster-channels#9794f78196418bed5624283ede996f41632e6ea4
+    version: github.com/neynarxyz/farcaster-channels/9794f78196418bed5624283ede996f41632e6ea4
   lucide-react:
     specifier: ^0.284.0
     version: 0.284.0(react@18.2.0)
@@ -8460,4 +8463,13 @@ packages:
       {
         integrity: sha512-EjIevzuJRiRPbVH4mGc8nApb/lVLKVpmUhAaR5R5doKGfAnGJ6Gr3CViAVjP+4FWSxCsybeWQdcgCtbX+7oZug==,
       }
+    dev: false
+
+  github.com/neynarxyz/farcaster-channels/9794f78196418bed5624283ede996f41632e6ea4:
+    resolution:
+      {
+        tarball: https://codeload.github.com/neynarxyz/farcaster-channels/tar.gz/9794f78196418bed5624283ede996f41632e6ea4,
+      }
+    name: farcaster-channels#9794f78196418bed5624283ede996f41632e6ea4
+    version: 0.0.0
     dev: false
