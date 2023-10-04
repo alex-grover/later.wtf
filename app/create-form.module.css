@@ -24,9 +24,36 @@
 }
 
 .label {
+  --height: 40px;
+  --padding: 0 12px;
+
   display: flex;
-  flex: 0 0 50%;
+  flex: 0 1 50%;
   flex-direction: column;
+  gap: 6px;
+}
+
+.label > span {
+  font-weight: bold;
+}
+
+.input {
+  display: flex;
+  align-items: center;
+  height: var(--height);
+  padding: var(--padding);
+  background: var(--foreground);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.select {
+  height: var(--height);
+  padding: var(--padding);
+  appearance: none;
+  background: var(--foreground);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
 }
 
 .button {
