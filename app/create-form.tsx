@@ -86,11 +86,15 @@ export default function CreateForm() {
             <span>Channel</span>
             <select name="channel" className={styles.select}>
               <option value="">No channel</option>
-              {channels.map((channel) => (
-                <option key={channel.channel_id} value={channel.parent_url}>
-                  {channel.name}
-                </option>
-              ))}
+              {channels
+                .sort((a, b) =>
+                  a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1,
+                )
+                .map((channel) => (
+                  <option key={channel.channel_id} value={channel.parent_url}>
+                    {channel.name}
+                  </option>
+                ))}
             </select>
           </label>
         </div>
