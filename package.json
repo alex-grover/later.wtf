@@ -30,7 +30,7 @@
     "lucide-react": "^0.284.0",
     "next": "latest",
     "next-themes": "^0.2.1",
-    "neynar-next": "^0.2.3",
+    "neynar-next": "^0.2.5",
     "react": "latest",
     "react-dom": "latest",
     "react-qr-code": "^2.0.12",
