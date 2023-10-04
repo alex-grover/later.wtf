@@ -7,6 +7,8 @@ import ThemeProvider from '@/components/theme'
 import '@/styles/global.css'
 import '@/styles/theme.css'
 
+export const runtime = 'edge'
+
 export default function RootLayout({ children }: PropsWithChildren) {
   return (
     <html lang="en" suppressHydrationWarning>

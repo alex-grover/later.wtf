@@ -20,11 +20,11 @@ export default function CreateForm() {
         if (signer?.status !== 'approved') return
 
         const body = new FormData(event.currentTarget)
-        const datetimeString = body.get('datetime')
-        if (typeof datetimeString !== 'string') return // TODO: error message
-        const datetime = new Date(datetimeString)
-        if (datetime <= new Date()) return // TODO: error message
-        body.set('datetime', datetime.toISOString())
+        const scheduledForString = body.get('scheduledFor')
+        if (typeof scheduledForString !== 'string') return // TODO: error message
+        const scheduledFor = new Date(scheduledForString)
+        if (scheduledFor <= new Date()) return // TODO: error message
+        body.set('scheduledFor', scheduledFor.toISOString())
 
         setState('loading')
         const response = await fetch('/api/casts', { method: 'POST', body })
@@ -68,7 +68,7 @@ export default function CreateForm() {
           <label className={styles.label}>
             Schedule For
             {/* TODO: use a nicer datetime input component */}
-            <input name="datetime" type="datetime-local" required />
+            <input name="scheduledFor" type="datetime-local" required />
           </label>
           <label className={styles.label}>
             Channel
