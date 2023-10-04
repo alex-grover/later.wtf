@@ -4,6 +4,7 @@
   --text: #282a2f;
   --muted: #666768;
   --border: #edeef0;
+  --error: red;
 }
 
 [data-theme='dark'] {

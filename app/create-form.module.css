@@ -12,6 +12,10 @@
   border-radius: var(--radius);
 }
 
+.error {
+  color: var(--error);
+}
+
 .image {
   color: var(--muted);
 }
@@ -19,7 +23,6 @@
 .options {
   display: flex;
   gap: 10px;
-  align-items: center;
   justify-content: space-between;
 }
 
@@ -57,7 +60,10 @@
 }
 
 .button {
+  display: flex;
+  align-items: center;
   align-self: flex-end;
+  justify-content: center;
   width: 140px;
   padding: 6px 12px;
 }

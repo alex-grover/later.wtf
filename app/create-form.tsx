@@ -4,14 +4,24 @@ import channels from 'farcaster-channels#9794f78196418bed5624283ede996f41632e6ea
 import { useSigner } from 'neynar-next'
 import { FormEvent, useCallback, useState } from 'react'
 import { mutate } from 'swr'
+import { CreateCastError, CreateCastInput } from '@/app/api/casts/schema'
+import LoadingSpinner from '@/components/loading-spinner'
 import styles from './create-form.module.css'
 import Profile from './profile'
 
-type State = 'idle' | 'loading' | 'success' | 'error'
+type State =
+  | { status: 'idle' }
+  | { status: 'loading' }
+  | { status: 'success' }
+  | {
+      status: 'error'
+      error?: CreateCastError
+      message?: string
+    }
 
 export default function CreateForm() {
   const { signer } = useSigner()
-  const [state, setState] = useState<State>('idle')
+  const [state, setState] = useState<State>({ status: 'idle' })
 
   const handleSubmit = useCallback(
     (event: FormEvent<HTMLFormElement>) => {
@@ -21,24 +31,27 @@ export default function CreateForm() {
         if (signer?.status !== 'approved') return
 
         const body = new FormData(event.currentTarget)
-        const scheduleForString = body.get('scheduleFor')
-        if (typeof scheduleForString !== 'string') return // TODO: error message
-        const scheduleFor = new Date(scheduleForString)
-        if (scheduleFor <= new Date()) return // TODO: error message
-        body.set('scheduleFor', scheduleFor.toISOString())
-
         body.set('signerUuid', signer.signer_uuid)
 
-        setState('loading')
-        const response = await fetch('/api/casts', { method: 'POST', body })
-
-        if (!response.ok) {
-          // TODO: display server error
-          setState('error')
+        const parseResponse = CreateCastInput.safeParse(
+          Object.fromEntries(body.entries()),
+        )
+        if (!parseResponse.success) {
+          setState({ status: 'error', error: parseResponse.error.flatten() })
           return
         }
 
-        setState('success')
+        body.set('scheduleFor', parseResponse.data.scheduleFor.toISOString())
+
+        setState({ status: 'loading' })
+        const response = await fetch('/api/casts', { method: 'POST', body })
+
+        if (!response.ok) {
+          setState({ status: 'error', message: await response.text() })
+          return
+        }
+
+        setState({ status: 'success' })
         await mutate(
           (key) => typeof key === 'string' && key.startsWith('/api/casts'),
           undefined,
@@ -60,11 +73,13 @@ export default function CreateForm() {
           placeholder="What do you want to cast?"
           className={styles.textarea}
           disabled={signer?.status !== 'approved'}
-          required
           minLength={1}
           maxLength={320}
           rows={5}
         />
+        {state.status === 'error' && (
+          <div className={styles.error}>{state.error?.fieldErrors.text}</div>
+        )}
         <div className={styles.image}>
           Image upload coming soon! For now, please upload images directly on{' '}
           <a href="https://imgur.com" target="_blank">
@@ -78,9 +93,13 @@ export default function CreateForm() {
             <input
               name="scheduleFor"
               type="datetime-local"
-              required
               className={styles.input}
             />
+            {state.status === 'error' && (
+              <div className={styles.error}>
+                {state.error?.fieldErrors.scheduleFor}
+              </div>
+            )}
           </label>
           <label className={styles.label}>
             <span>Channel</span>
@@ -96,11 +115,16 @@ export default function CreateForm() {
                   </option>
                 ))}
             </select>
+            {state.status === 'error' && (
+              <div className={styles.error}>
+                {state.error?.fieldErrors.channel}
+              </div>
+            )}
           </label>
         </div>
         <button
           type="submit"
-          disabled={['loading', 'success'].includes(state)}
+          disabled={['loading', 'success'].includes(state.status)}
           className={styles.button}
         >
           {buttonContent(state)}
@@ -111,17 +135,14 @@ export default function CreateForm() {
 }
 
 function buttonContent(state: State) {
-  switch (state) {
+  switch (state.status) {
     case 'idle':
       return 'Schedule Cast'
     case 'loading':
-      // TODO: loading spinner
-      return 'Saving...'
+      return <LoadingSpinner />
     case 'success':
-      // TODO: icon, color
       return 'Success!'
     case 'error':
-      // TODO: icon, color
       return 'Error'
   }
 }

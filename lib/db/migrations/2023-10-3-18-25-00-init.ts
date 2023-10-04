@@ -2,8 +2,6 @@
 import { Kysely, sql } from 'kysely'
 
 export async function up(db: Kysely<any>): Promise<void> {
-  // TODO: updated_at
-  // TODO: map to camelCase
   await db.schema
     .createTable('cast')
     .addColumn('id', 'serial', (col) => col.primaryKey())

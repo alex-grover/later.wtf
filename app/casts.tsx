@@ -7,8 +7,9 @@ import { useSigner } from 'neynar-next'
 import { User } from 'neynar-next/server'
 import useSWR from 'swr'
 import useSWRImmutable from 'swr/immutable'
-import { GetCastsError, GetCastsResponse } from '@/app/api/casts/route'
+import { GetCastsResponse } from '@/app/api/casts/schema'
 import Channel from '@/components/channel'
+import LoadingSpinner from '@/components/loading-spinner'
 import Table from '@/components/table/table'
 import partition from '@/lib/partition'
 import styles from './casts.module.css'
@@ -18,7 +19,7 @@ dayjs.extend(LocalizedFormat)
 export default function Casts() {
   const { signer } = useSigner()
   const params = new URLSearchParams({ signerUuid: signer?.signer_uuid ?? '' })
-  const { data, isLoading, error } = useSWR<GetCastsResponse, GetCastsError>(
+  const { data, isLoading, error } = useSWR<GetCastsResponse, string>(
     signer ? `/api/casts?${params.toString()}` : null,
   )
 
@@ -31,14 +32,18 @@ export default function Casts() {
   )
 
   if (!signer) return null
-  if (isLoading) return 'Loading...' // TODO: loading spinner
-  if (error) return error.fieldErrors.signerUuid?.[0] ?? 'An error occurred' // TODO: better error display
+  if (isLoading)
+    return (
+      <div className={styles.loading}>
+        <LoadingSpinner />
+      </div>
+    )
+  if (error) return <div className={styles.error}>{error}</div>
 
   const [scheduledCasts, postedCasts] = data
     ? partition(data, (cast) => !cast.hash)
     : [[], []]
 
-  // TODO: update styling, date display
   return (
     <>
       <div>
@@ -95,7 +100,7 @@ export default function Casts() {
                 <tr key={cast.id}>
                   <td className={styles.id}>{cast.id}</td>
                   <td className={styles.date}>
-                    {dayjs(cast.scheduled_for).format('lll')}
+                    {dayjs(cast.posted_at).format('lll')}
                   </td>
                   <td className={styles.text}>{cast.text}</td>
                   <td className={styles.channel}>
@@ -115,7 +120,7 @@ export default function Casts() {
                         View
                       </a>
                     )}
-                    {userLoading && 'Loading...'}
+                    {userLoading && <LoadingSpinner />}
                     {userError}
                   </td>
                 </tr>

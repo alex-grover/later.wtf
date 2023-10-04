@@ -24,7 +24,7 @@ export async function GET(request: Request) {
       return db
         .updateTable('cast')
         .where('id', '=', cast.id)
-        .set({ hash: result.cast.hash })
+        .set({ hash: result.cast.hash, posted_at: sql`now()` })
         .execute()
     }),
   )

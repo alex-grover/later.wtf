@@ -1,3 +1,13 @@
+.loading {
+  display: flex;
+  justify-content: center;
+  margin-top: 36px;
+}
+
+.error {
+  margin-top: 36px;
+}
+
 .heading {
   margin: 36px 0 10px;
 }
@@ -7,7 +17,7 @@
 }
 
 .date {
-  width: 140px;
+  width: 120px;
 }
 
 .text {
@@ -15,9 +25,9 @@
 }
 
 .channel {
-  width: 120px;
+  width: 100px;
 }
 
 .link {
-  width: 40px;
+  width: 100px;
 }

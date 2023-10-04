@@ -1,39 +1,29 @@
-import { Selectable } from 'kysely'
-import { Cast } from 'kysely-codegen'
 import { NextResponse } from 'next/server'
 import { z } from 'zod'
 import db from '@/lib/db'
-
-const GetCastsInput = z.object({
-  signerUuid: z.string().uuid(),
-})
-
-export type GetCastsResponse = (Omit<
-  Selectable<Cast>,
-  'created_at' | 'scheduled_for'
-> & {
-  created_at: string
-  scheduled_for: string
-})[]
-
-export type GetCastsError = z.inferFlattenedErrors<typeof GetCastsInput>
+import {
+  CreateCastError,
+  CreateCastInput,
+  CreateCastResponse,
+  GetCastsResponse,
+} from './schema'
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
-  const parseResult = GetCastsInput.safeParse(
-    Object.fromEntries(searchParams.entries()),
-  )
+
+  const parseResult = z
+    .string()
+    .uuid()
+    .safeParse(searchParams.get('signerUuid'))
   if (!parseResult.success)
-    return NextResponse.json<GetCastsError>(parseResult.error.flatten(), {
+    return new Response(parseResult.error.message, {
       status: 422,
     })
-
-  const { signerUuid } = parseResult.data
 
   const casts = await db
     .selectFrom('cast')
     .selectAll()
-    .where('signer_uuid', '=', signerUuid)
+    .where('signer_uuid', '=', parseResult.data)
     .execute()
 
   return NextResponse.json<GetCastsResponse>(
@@ -44,22 +34,6 @@ export async function GET(request: Request) {
     })),
   )
 }
-
-const CreateCastInput = z.object({
-  text: z.string().min(1).max(320),
-  scheduleFor: z
-    .string()
-    .pipe(z.coerce.date())
-    .refine((val) => val >= new Date(), {
-      message: 'datetime must be in the future',
-    }),
-  channel: z.string().optional(),
-  signerUuid: z.string().uuid(),
-})
-
-export type CreateCastResponse = Selectable<Cast>
-
-export type CreateCastError = z.inferFlattenedErrors<typeof CreateCastInput>
 
 export async function POST(request: Request) {
   const data = await request.formData()
@@ -78,7 +52,8 @@ export async function POST(request: Request) {
     .values({
       text,
       scheduled_for: scheduleFor,
-      channel,
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+      channel: channel || undefined,
       signer_uuid: signerUuid,
     })
     .returningAll()
