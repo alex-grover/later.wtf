@@ -32,6 +32,7 @@ export default function Casts() {
     ? partition(data, (cast) => !cast.hash)
     : [[], []]
 
+  // TODO: update styling, date display
   return (
     <>
       <div>

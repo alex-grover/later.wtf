@@ -66,7 +66,7 @@ export default function CreateForm() {
           rows={5}
         />
         <div className={styles.image}>
-          Image upload coming soon! For now, please upload images directly at{' '}
+          Image upload coming soon! For now, please upload images directly on{' '}
           <a href="https://imgur.com" target="_blank">
             Imgur
           </a>{' '}
