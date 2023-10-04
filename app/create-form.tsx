@@ -67,10 +67,12 @@ export default function CreateForm() {
         <div className={styles.options}>
           <label className={styles.label}>
             Schedule For
+            {/* TODO: use a nicer datetime input component */}
             <input name="datetime" type="datetime-local" required />
           </label>
           <label className={styles.label}>
             Channel
+            {/* TODO: use a nicer select component */}
             <select name="channel">
               <option value="">No channel</option>
               {channels.map((channel) => (
