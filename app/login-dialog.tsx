@@ -16,7 +16,6 @@ export default function LoginDialog() {
 
   if (!signer) return null
 
-  // TODO: clean up styling, add some info about what it does
   return (
     <Dialog.Root open={signer.status !== 'approved'}>
       <Dialog.Portal>
