@@ -13,6 +13,7 @@ export async function GET(request: Request) {
     .selectAll()
     .where('scheduled_for', '<=', sql`now()`)
     .where('hash', 'is', null)
+    .where('deleted_at', 'is', null)
     .execute()
 
   await Promise.all(

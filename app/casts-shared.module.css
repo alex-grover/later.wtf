@@ -1,0 +1,19 @@
+.id {
+  width: 40px;
+}
+
+.date {
+  width: 120px;
+}
+
+.text {
+  width: 200px;
+}
+
+.channel {
+  width: 100px;
+}
+
+.delete {
+  width: 80px;
+}

@@ -12,7 +12,9 @@ import Channel from '@/components/channel'
 import LoadingSpinner from '@/components/loading-spinner'
 import Table from '@/components/table/table'
 import partition from '@/lib/partition'
+import sharedStyles from './casts-shared.module.css'
 import styles from './casts.module.css'
+import ScheduledCastRow from './scheduled-cast-row'
 
 dayjs.extend(LocalizedFormat)
 
@@ -52,29 +54,16 @@ export default function Casts() {
           <Table>
             <thead>
               <tr>
-                <th className={styles.id}>ID</th>
-                <th className={styles.date}>Scheduled For</th>
-                <th className={styles.text}>Text</th>
-                <th className={styles.channel}>Channel</th>
+                <th className={sharedStyles.id}>ID</th>
+                <th className={sharedStyles.date}>Scheduled For</th>
+                <th className={sharedStyles.text}>Text</th>
+                <th className={sharedStyles.channel}>Channel</th>
+                <th className={sharedStyles.delete}>Delete</th>
               </tr>
             </thead>
             <tbody>
               {scheduledCasts.map((cast) => (
-                <tr key={cast.id}>
-                  <td className={styles.id}>{cast.id}</td>
-                  <td className={styles.date}>
-                    {dayjs(cast.scheduled_for).format('lll')}
-                  </td>
-                  <td className={styles.text}>{cast.text}</td>
-                  <td className={styles.channel}>
-                    <Channel
-                      channel={channels.find(
-                        (channel) => channel.parent_url === cast.channel,
-                      )}
-                      parent_url={cast.channel}
-                    />
-                  </td>
-                </tr>
+                <ScheduledCastRow key={cast.id} cast={cast} />
               ))}
             </tbody>
           </Table>
@@ -88,22 +77,22 @@ export default function Casts() {
           <Table>
             <thead>
               <tr>
-                <th className={styles.id}>ID</th>
-                <th className={styles.date}>Posted At</th>
-                <th className={styles.text}>Text</th>
-                <th className={styles.channel}>Channel</th>
+                <th className={sharedStyles.id}>ID</th>
+                <th className={sharedStyles.date}>Posted At</th>
+                <th className={sharedStyles.text}>Text</th>
+                <th className={sharedStyles.channel}>Channel</th>
                 <th className={styles.link}>Warpcast Link</th>
               </tr>
             </thead>
             <tbody>
               {postedCasts.map((cast) => (
                 <tr key={cast.id}>
-                  <td className={styles.id}>{cast.id}</td>
-                  <td className={styles.date}>
+                  <td className={sharedStyles.id}>{cast.id}</td>
+                  <td className={sharedStyles.date}>
                     {dayjs(cast.posted_at).format('lll')}
                   </td>
-                  <td className={styles.text}>{cast.text}</td>
-                  <td className={styles.channel}>
+                  <td className={sharedStyles.text}>{cast.text}</td>
+                  <td className={sharedStyles.channel}>
                     <Channel
                       channel={channels.find(
                         (channel) => channel.parent_url === cast.channel,

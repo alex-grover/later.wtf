@@ -24,6 +24,7 @@ export async function GET(request: Request) {
     .selectFrom('cast')
     .selectAll()
     .where('signer_uuid', '=', parseResult.data)
+    .where('deleted_at', 'is', null)
     .orderBy('scheduled_for', 'desc')
     .execute()
 
