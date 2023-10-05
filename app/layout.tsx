@@ -1,5 +1,6 @@
 import '@alex-grover/styles/reset.css'
 import { Analytics } from '@vercel/analytics/react'
+import { Metadata } from 'next'
 import { NeynarProvider } from 'neynar-next'
 import { PropsWithChildren } from 'react'
 import SWRProvider from '@/components/swr'
@@ -23,4 +24,9 @@ export default function RootLayout({ children }: PropsWithChildren) {
       </body>
     </html>
   )
+}
+
+export const metadata: Metadata = {
+  title: 'later.wtf',
+  description: 'Schedule Farcaster posts',
 }
