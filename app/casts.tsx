@@ -82,7 +82,7 @@ export default function Casts() {
           <div>None yet!</div>
         )}
       </div>
-      <div>
+      <div className={styles.second}>
         <h2 className={styles.heading}>Posted Casts</h2>
         {postedCasts.length ? (
           <Table>
