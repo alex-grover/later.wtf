@@ -1,9 +1,3 @@
 {
-  "buildCommand": "pnpm migrate && pnpm generate && pnpm build",
-  "crons": [
-    {
-      "path": "/api/cron?key=Ql7ETz706R3z",
-      "schedule": "*/5 * * * *"
-    }
-  ]
+  "buildCommand": "pnpm migrate && pnpm generate && pnpm build"
 }

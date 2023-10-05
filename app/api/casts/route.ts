@@ -24,6 +24,7 @@ export async function GET(request: Request) {
     .selectFrom('cast')
     .selectAll()
     .where('signer_uuid', '=', parseResult.data)
+    .orderBy('scheduled_for', 'desc')
     .execute()
 
   return NextResponse.json<GetCastsResponse>(

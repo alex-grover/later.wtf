@@ -1,10 +1,11 @@
 name: cron
 
 on:
-  push:
+  schedule:
+    - cron: '*/5 * * * *'
 
 jobs:
-  check:
+  cron:
     runs-on: ubuntu-latest
     steps:
       - run: curl https://later.wtf/api/cron?key=$CRON_KEY

@@ -3,6 +3,7 @@ import { z } from 'zod'
 
 const env = createEnv({
   server: {
+    CRON_KEY: z.string().min(1),
     DATABASE_URL: z.string().url(),
     FARCASTER_MNEMONIC: z.string().min(1),
     FARCASTER_ID: z.string().min(1).pipe(z.coerce.bigint()),

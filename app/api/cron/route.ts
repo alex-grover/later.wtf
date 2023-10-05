@@ -1,10 +1,11 @@
 import { sql } from 'kysely'
 import db from '@/lib/db'
+import env from '@/lib/env'
 import neynarClient from '@/lib/neynar'
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
-  if (searchParams.get('key') !== 'Ql7ETz706R3z')
+  if (searchParams.get('key') !== env.CRON_KEY)
     return new Response('Invalid cron key', { status: 403 })
 
   const casts = await db
