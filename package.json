@@ -1,5 +1,6 @@
 {
   "name": "later.wtf",
+  "description": "Schedule Farcaster posts",
   "type": "module",
   "private": true,
   "scripts": {
