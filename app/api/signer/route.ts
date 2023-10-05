@@ -2,8 +2,6 @@ import { NextResponse } from 'next/server'
 import { z } from 'zod'
 import neynarClient from '@/lib/neynar'
 
-export const runtime = 'edge'
-
 const schema = z.object({
   signer_uuid: z.string().min(1),
 })
