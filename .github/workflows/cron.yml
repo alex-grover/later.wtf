@@ -1,0 +1,12 @@
+name: cron
+
+on:
+  push:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - run: curl https://later.wtf/api/cron?key=$CRON_KEY
+        env:
+          CRON_KEY: ${{ secrets.CRON_KEY }}
