@@ -12,6 +12,7 @@ async function migrateToLatest() {
   const env = createEnv({
     server: {
       DATABASE_URL: z.string().url(),
+      DIRECT_DATABASE_URL: z.string().url().optional(),
     },
     experimental__runtimeEnv: {},
   })
@@ -19,7 +20,8 @@ async function migrateToLatest() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const db = new Kysely<any>({
     dialect: new NeonDialect({
-      connectionString: env.DATABASE_URL,
+      // We use a connection pooler for the app in prod, and override the URL with a non-pooled one for running migrations
+      connectionString: env.DIRECT_DATABASE_URL ?? env.DATABASE_URL,
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       webSocketConstructor: ws,
     }),
