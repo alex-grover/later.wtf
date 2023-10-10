@@ -12,6 +12,11 @@
   height: var(--header-height);
 }
 
+.connect {
+  display: flex;
+  gap: 8px;
+}
+
 .main {
   max-width: 1000px;
   height: calc(100dvh - var(--header-height));

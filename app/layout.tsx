@@ -5,6 +5,7 @@ import { NeynarProvider } from 'neynar-next'
 import { PropsWithChildren } from 'react'
 import SWRProvider from '@/components/swr'
 import ThemeProvider from '@/components/theme'
+import ConnectKitConfig from '@/lib/connectkit'
 import '@/styles/global.css'
 import '@/styles/theme.css'
 
@@ -17,7 +18,9 @@ export default function RootLayout({ children }: PropsWithChildren) {
       <body>
         <ThemeProvider>
           <SWRProvider>
-            <NeynarProvider>{children}</NeynarProvider>
+            <ConnectKitConfig>
+              <NeynarProvider>{children}</NeynarProvider>
+            </ConnectKitConfig>
           </SWRProvider>
         </ThemeProvider>
         <Analytics />
