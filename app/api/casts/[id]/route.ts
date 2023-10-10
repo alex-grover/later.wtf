@@ -1,6 +1,8 @@
 import { sql } from 'kysely'
+import { NextRequest } from 'next/server'
 import { z } from 'zod'
 import db from '@/lib/db'
+import Session from '@/lib/session'
 
 type Props = {
   params: {
@@ -8,16 +10,17 @@ type Props = {
   }
 }
 
-export async function DELETE(request: Request, { params: { id } }: Props) {
-  const { searchParams } = new URL(request.url)
-  const signerParseResult = z
-    .string()
-    .uuid()
-    .safeParse(searchParams.get('signerUuid'))
-  if (!signerParseResult.success)
-    return new Response(signerParseResult.error.message, {
-      status: 422,
-    })
+export async function DELETE(request: NextRequest, { params: { id } }: Props) {
+  const { address } = await Session.fromCookies(request.cookies)
+  if (!address) return new Response('Unauthorized', { status: 401 })
+
+  const user = await db
+    .selectFrom('user')
+    .selectAll()
+    .where('address', '=', address)
+    .executeTakeFirst()
+
+  if (!user) return new Response('Forbidden', { status: 403 })
 
   const idParseResult = z
     .string()
@@ -32,7 +35,7 @@ export async function DELETE(request: Request, { params: { id } }: Props) {
     .updateTable('cast')
     .set({ deleted_at: sql`now()` })
     .where('id', '=', idParseResult.data)
-    .where('signer_uuid', '=', signerParseResult.data)
+    .where('signer_uuid', '=', user.signer_uuid) // TODO: delete by address
     .where('hash', 'is', null)
     .where('deleted_at', 'is', null)
     .executeTakeFirst()

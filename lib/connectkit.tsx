@@ -28,7 +28,6 @@ const siweConfig = {
   getNonce: async () => {
     const res = await fetch(SIWE_API_PATH, { method: 'PUT' })
     if (!res.ok) throw new Error('Failed to fetch SIWE nonce')
-
     return res.text()
   },
   createMessage: ({ nonce, address, chainId }) => {
@@ -53,12 +52,13 @@ const siweConfig = {
   getSession: async () => {
     const res = await fetch(SIWE_API_PATH)
     if (!res.ok) throw new Error('Failed to fetch SIWE session')
-
     const { address, chainId } = (await res.json()) as SerializedSession
     return address && chainId ? { address, chainId } : null
   },
-  signOut: () =>
-    fetch(SIWE_API_PATH, { method: 'DELETE' }).then((res) => res.ok),
+  signOut: async () => {
+    const res = await fetch(SIWE_API_PATH, { method: 'DELETE' })
+    return res.ok
+  },
 } satisfies SIWEConfig
 
 export default function ConnectKitConfig({ children }: PropsWithChildren) {

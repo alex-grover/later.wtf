@@ -2,6 +2,7 @@ import { sealData, unsealData } from 'iron-session'
 import { RequestCookies } from 'next/dist/compiled/@edge-runtime/cookies'
 import { ReadonlyRequestCookies } from 'next/dist/server/web/spec-extension/adapters/request-cookies'
 import { NextResponse } from 'next/server'
+import { Address } from 'viem'
 import env from '@/lib/env'
 
 const COOKIE_NAME = 'later-wtf'
@@ -14,13 +15,13 @@ const SESSION_OPTIONS = {
 export type SerializedSession = {
   nonce?: string
   chainId?: number
-  address?: string
+  address?: Address
 }
 
 export default class Session {
   nonce?: string
   chainId?: number
-  address?: string
+  address?: Address
 
   constructor(session?: SerializedSession) {
     this.nonce = session?.nonce

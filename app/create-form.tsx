@@ -31,7 +31,6 @@ export default function CreateForm() {
         if (signer?.status !== 'approved') return
 
         const body = new FormData(event.currentTarget)
-        body.set('signerUuid', signer.signer_uuid)
 
         const parseResponse = CreateCastInput.safeParse(
           Object.fromEntries(body.entries()),

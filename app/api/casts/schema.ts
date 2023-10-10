@@ -19,7 +19,6 @@ export const CreateCastInput = z.object({
       message: 'datetime must be in the future',
     }),
   channel: z.string().optional(),
-  signerUuid: z.string().uuid(),
 })
 
 export type CreateCastResponse = Selectable<Cast>

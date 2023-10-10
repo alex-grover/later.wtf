@@ -1,9 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { SiweErrorType, SiweMessage, generateNonce } from 'siwe'
+import { Address } from 'viem'
 import { z } from 'zod'
 import Session, { SerializedSession } from '@/lib/session'
-
-export const runtime = 'nodejs'
 
 export async function GET(request: NextRequest) {
   const session = await Session.fromCookies(request.cookies)
@@ -33,19 +32,19 @@ export async function POST(request: NextRequest) {
 
   try {
     const siweMessage = new SiweMessage(message)
-    const { data: fields } = await siweMessage.verify({
+    const { data } = await siweMessage.verify({
       signature,
       nonce: session.nonce,
     })
 
-    if (fields.nonce !== session.nonce) {
+    if (data.nonce !== session.nonce) {
       const response = new NextResponse('Invalid nonce.', { status: 422 })
       await session.clear(response)
       return response
     }
 
-    session.address = fields.address
-    session.chainId = fields.chainId
+    session.address = data.address as Address
+    session.chainId = data.chainId
   } catch (error) {
     switch (error) {
       case SiweErrorType.INVALID_NONCE:

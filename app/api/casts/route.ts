@@ -1,6 +1,6 @@
-import { NextResponse } from 'next/server'
-import { z } from 'zod'
+import { NextRequest, NextResponse } from 'next/server'
 import db from '@/lib/db'
+import Session from '@/lib/session'
 import {
   CreateCastError,
   CreateCastInput,
@@ -8,22 +8,23 @@ import {
   GetCastsResponse,
 } from './schema'
 
-export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url)
+export async function GET(request: NextRequest) {
+  const { address } = await Session.fromCookies(request.cookies)
+  if (!address) return new Response('Unauthorized', { status: 401 })
 
-  const parseResult = z
-    .string()
-    .uuid()
-    .safeParse(searchParams.get('signerUuid'))
-  if (!parseResult.success)
-    return new Response(parseResult.error.message, {
-      status: 422,
-    })
+  const user = await db
+    .selectFrom('user')
+    .selectAll()
+    .where('address', '=', address)
+    .executeTakeFirst()
 
+  if (!user) return new Response('Forbidden', { status: 403 })
+
+  // TODO: fetch by address
   const casts = await db
     .selectFrom('cast')
     .selectAll()
-    .where('signer_uuid', '=', parseResult.data)
+    .where('signer_uuid', '=', user.signer_uuid)
     .where('deleted_at', 'is', null)
     .orderBy('scheduled_for', 'desc')
     .execute()
@@ -37,7 +38,18 @@ export async function GET(request: Request) {
   )
 }
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
+  const { address } = await Session.fromCookies(request.cookies)
+  if (!address) return new Response('Unauthorized', { status: 401 })
+
+  const user = await db
+    .selectFrom('user')
+    .selectAll()
+    .where('address', '=', address)
+    .executeTakeFirst()
+
+  if (!user) return new Response('Forbidden', { status: 403 })
+
   const data = await request.formData()
   const parseResult = CreateCastInput.safeParse(
     Object.fromEntries(data.entries()),
@@ -47,7 +59,7 @@ export async function POST(request: Request) {
       status: 422,
     })
 
-  const { text, scheduleFor, channel, signerUuid } = parseResult.data
+  const { text, scheduleFor, channel } = parseResult.data
 
   const cast = await db
     .insertInto('cast')
@@ -56,7 +68,7 @@ export async function POST(request: Request) {
       scheduled_for: scheduleFor,
       // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       channel: channel || undefined,
-      signer_uuid: signerUuid,
+      signer_uuid: user.signer_uuid, // TODO: insert by address
     })
     .returningAll()
     .executeTakeFirstOrThrow()
