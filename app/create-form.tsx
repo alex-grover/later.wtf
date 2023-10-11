@@ -1,13 +1,13 @@
 'use client'
 
+import { useSIWE } from 'connectkit'
 import channels from 'farcaster-channels#9794f78196418bed5624283ede996f41632e6ea4/warpcast.json'
-import { useSigner } from 'neynar-next'
 import { FormEvent, useCallback, useState } from 'react'
 import { mutate } from 'swr'
 import { CreateCastError, CreateCastInput } from '@/app/api/casts/schema'
 import LoadingSpinner from '@/components/loading-spinner'
+import { useSigner } from '@/lib/neynar-provider'
 import styles from './create-form.module.css'
-import Profile from './profile'
 
 type State =
   | { status: 'idle' }
@@ -20,6 +20,8 @@ type State =
     }
 
 export default function CreateForm() {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  const { isSignedIn } = useSIWE()
   const { signer } = useSigner()
   const [state, setState] = useState<State>({ status: 'idle' })
 
@@ -65,13 +67,11 @@ export default function CreateForm() {
 
   return (
     <>
-      <Profile fid={signer?.status === 'approved' ? signer.fid : null} />
       <form onSubmit={handleSubmit} className={styles.form}>
         <textarea
           name="text"
           placeholder="What do you want to cast?"
           className={styles.textarea}
-          disabled={signer?.status !== 'approved'}
           minLength={1}
           maxLength={320}
           rows={5}
@@ -123,7 +123,9 @@ export default function CreateForm() {
         </div>
         <button
           type="submit"
-          disabled={['loading', 'success'].includes(state.status)}
+          disabled={
+            !isSignedIn || ['loading', 'success'].includes(state.status)
+          }
           className={styles.button}
         >
           {buttonContent(state)}

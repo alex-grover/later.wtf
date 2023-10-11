@@ -1,8 +1,8 @@
 import { ThemeToggle } from '@/components/theme'
 import { ConnectButton } from '@/lib/connectkit'
+import AddSignerDialog from './add-signer-dialog'
 import Casts from './casts'
 import CreateForm from './create-form'
-import LoginDialog from './login-dialog'
 import styles from './page.module.css'
 
 export default function HomePage() {
@@ -16,10 +16,10 @@ export default function HomePage() {
         </div>
       </header>
       <main className={styles.main}>
+        <AddSignerDialog />
         <CreateForm />
         <Casts />
       </main>
-      <LoginDialog />
     </>
   )
 }

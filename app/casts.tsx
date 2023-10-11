@@ -3,7 +3,6 @@
 import dayjs from 'dayjs'
 import LocalizedFormat from 'dayjs/plugin/localizedFormat'
 import channels from 'farcaster-channels#9794f78196418bed5624283ede996f41632e6ea4/warpcast.json'
-import { useSigner } from 'neynar-next'
 import { User } from 'neynar-next/server'
 import useSWR from 'swr'
 import useSWRImmutable from 'swr/immutable'
@@ -11,6 +10,7 @@ import { GetCastsResponse } from '@/app/api/casts/schema'
 import Channel from '@/components/channel'
 import LoadingSpinner from '@/components/loading-spinner'
 import Table from '@/components/table/table'
+import { useSigner } from '@/lib/neynar-provider'
 import partition from '@/lib/partition'
 import sharedStyles from './casts-shared.module.css'
 import styles from './casts.module.css'
@@ -20,9 +20,8 @@ dayjs.extend(LocalizedFormat)
 
 export default function Casts() {
   const { signer } = useSigner()
-  const params = new URLSearchParams({ signerUuid: signer?.signer_uuid ?? '' })
   const { data, isLoading, error } = useSWR<GetCastsResponse, string>(
-    signer ? `/api/casts?${params.toString()}` : null,
+    signer ? '/api/casts' : null,
   )
 
   const {
@@ -33,7 +32,6 @@ export default function Casts() {
     signer?.status === 'approved' ? `/api/users/${signer.fid}` : null,
   )
 
-  if (!signer) return null
   if (isLoading)
     return (
       <div className={styles.loading}>

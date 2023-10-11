@@ -4,6 +4,7 @@
   --text: #282a2f;
   --muted: #666768;
   --border: #edeef0;
+  --warning: #e0b83e;
   --error: red;
 }
 
@@ -12,6 +13,7 @@
   --foreground: #20212d;
   --text: #fefffe;
   --muted: #828182;
+  --warning: #ebcb62;
   --border: #2f3242;
 }
 

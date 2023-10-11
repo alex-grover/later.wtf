@@ -4,15 +4,13 @@ import useSWRImmutable from 'swr/immutable'
 import styles from './profile.module.css'
 
 type UserProps = {
-  fid: number | null
+  fid: number
 }
 
 export default function Profile({ fid }: UserProps) {
-  const { data } = useSWRImmutable<User, string>(
-    fid ? `/api/users/${fid}` : null,
-  )
+  const { data } = useSWRImmutable<User, string>(`/api/users/${fid}`)
 
-  if (!fid || !data) return <div className={styles.placeholder} />
+  if (!data) return <div className={styles.placeholder} />
 
   return (
     <div className={styles.user}>

@@ -1,0 +1,25 @@
+.placeholder {
+  height: var(--header-height);
+}
+
+.connect {
+  display: flex;
+  width: 100%;
+  height: var(--header-height);
+  padding: 10px 0;
+}
+
+.trigger {
+  width: 100%;
+  color: var(--background);
+  background: var(--warning);
+}
+
+.description {
+  margin: 16px 0;
+}
+
+.link {
+  display: block;
+  margin-top: 10px;
+}

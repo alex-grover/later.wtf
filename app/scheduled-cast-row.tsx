@@ -1,12 +1,12 @@
 import dayjs from 'dayjs'
 import channels from 'farcaster-channels#9794f78196418bed5624283ede996f41632e6ea4/warpcast.json'
 import { AlertCircleIcon, CheckCircleIcon, TrashIcon } from 'lucide-react'
-import { useSigner } from 'neynar-next'
 import { useCallback, useState } from 'react'
 import { mutate } from 'swr'
 import { GetCastsResponse } from '@/app/api/casts/schema'
 import Channel from '@/components/channel'
 import LoadingSpinner from '@/components/loading-spinner'
+import { useSigner } from '@/lib/neynar-provider'
 import sharedStyles from './casts-shared.module.css'
 import styles from './scheduled-cast-row.module.css'
 
@@ -27,13 +27,9 @@ export default function ScheduledCastRow({ cast }: ScheduledCastRowProps) {
 
       setState('loading')
 
-      const params = new URLSearchParams({ signerUuid: signer.signer_uuid })
-      const response = await fetch(
-        `/api/casts/${cast.id}?${params.toString()}`,
-        {
-          method: 'DELETE',
-        },
-      )
+      const response = await fetch(`/api/casts/${cast.id}`, {
+        method: 'DELETE',
+      })
 
       if (!response.ok) {
         setState('error')
@@ -43,11 +39,9 @@ export default function ScheduledCastRow({ cast }: ScheduledCastRowProps) {
       setState('success')
       setTimeout(
         () =>
-          void mutate(
-            (key) => typeof key === 'string' && key.startsWith('/api/casts'),
-            undefined,
-            { revalidate: true },
-          ),
+          void mutate((key) => key === '/api/casts', undefined, {
+            revalidate: true,
+          }),
         1500,
       )
     }

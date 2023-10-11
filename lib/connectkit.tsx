@@ -12,6 +12,7 @@ import { SiweMessage } from 'siwe'
 import { mainnet } from 'viem/chains'
 import { createConfig, WagmiConfig } from 'wagmi'
 import env from '@/lib/env'
+import { useSigner } from '@/lib/neynar-provider'
 import { SerializedSession } from '@/lib/session'
 
 const SIWE_API_PATH = '/api/siwe'
@@ -62,9 +63,15 @@ const siweConfig = {
 } satisfies SIWEConfig
 
 export default function ConnectKitConfig({ children }: PropsWithChildren) {
+  const { fetchSigner, clearSigner } = useSigner()
+
   return (
     <WagmiConfig config={config}>
-      <SIWEProvider {...siweConfig}>
+      <SIWEProvider
+        {...siweConfig}
+        onSignIn={fetchSigner}
+        onSignOut={clearSigner}
+      >
         <ConnectKitProvider>{children}</ConnectKitProvider>
       </SIWEProvider>
     </WagmiConfig>
