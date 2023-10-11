@@ -86,6 +86,7 @@ export default function ConnectKitConfig({ children }: PropsWithChildren) {
             '--ck-body-background': 'var(--foreground)',
             '--ck-border-radius': 'var(--radius)',
             '--ck-primary-button-border-radius': 'var(--radius)',
+            '--ck-primary-button-active-border-radius': 'var(--radius)',
             '--ck-primary-button-background': 'var(--foreground-secondary)',
             '--ck-primary-button-hover-background':
               'var(--foreground-secondary)',
