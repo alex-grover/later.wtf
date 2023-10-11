@@ -7,13 +7,15 @@ import {
   SIWEConfig,
   SIWEProvider,
 } from 'connectkit'
-import { ComponentProps, PropsWithChildren } from 'react'
+import { useTheme } from 'next-themes'
+import { PropsWithChildren } from 'react'
 import { SiweMessage } from 'siwe'
 import { mainnet } from 'viem/chains'
 import { createConfig, WagmiConfig } from 'wagmi'
 import env from '@/lib/env'
 import { useSigner } from '@/lib/neynar-provider'
 import { SerializedSession } from '@/lib/session'
+import styles from './connectkit.module.css'
 
 const SIWE_API_PATH = '/api/siwe'
 
@@ -63,6 +65,7 @@ const siweConfig = {
 } satisfies SIWEConfig
 
 export default function ConnectKitConfig({ children }: PropsWithChildren) {
+  const { resolvedTheme } = useTheme()
   const { fetchSigner, clearSigner } = useSigner()
 
   return (
@@ -72,12 +75,34 @@ export default function ConnectKitConfig({ children }: PropsWithChildren) {
         onSignIn={fetchSigner}
         onSignOut={clearSigner}
       >
-        <ConnectKitProvider>{children}</ConnectKitProvider>
+        <ConnectKitProvider
+          mode={resolvedTheme === 'light' ? 'light' : 'dark'}
+          customTheme={{
+            '--ck-connectbutton-border-radius': 'var(--radius)',
+            '--ck-connectbutton-color': 'var(--text)',
+            '--ck-connectbutton-background': 'var(--foreground)',
+            '--ck-connectbutton-hover-background': 'var(--foreground)',
+            '--ck-connectbutton-active-background': 'var(--foreground)',
+            '--ck-body-background': 'var(--foreground)',
+            '--ck-border-radius': 'var(--radius)',
+            '--ck-secondary-button-border-radius': 'var(--radius)',
+            '--ck-secondary-button-color': 'var(--text)',
+            '--ck-secondary-button-background': 'var(--foreground-secondary)',
+            '--ck-secondary-button-hover-background':
+              'var(--foreground-secondary)',
+          }}
+        >
+          {children}
+        </ConnectKitProvider>
       </SIWEProvider>
     </WagmiConfig>
   )
 }
 
-export function ConnectButton(props: ComponentProps<typeof ConnectKitButton>) {
-  return <ConnectKitButton {...props} />
+export function ConnectButton() {
+  return (
+    <div className={styles.button}>
+      <ConnectKitButton />
+    </div>
+  )
 }
