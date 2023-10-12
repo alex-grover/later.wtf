@@ -2,6 +2,7 @@
   --background: #f4f5f8;
   --foreground: #fff;
   --foreground-secondary: #eee;
+  --foreground-tertiary: var(--foreground);
   --text: #282a2f;
   --muted: #666768;
   --border: #edeef0;
@@ -13,6 +14,7 @@
   --background: #181921;
   --foreground: #20212d;
   --foreground-secondary: #323446;
+  --foreground-tertiary: #42455d;
   --text: #fefffe;
   --muted: #828182;
   --warning: #ebcb62;
