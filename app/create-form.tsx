@@ -2,7 +2,7 @@
 
 import { useSIWE } from 'connectkit'
 import channels from 'farcaster-channels#9794f78196418bed5624283ede996f41632e6ea4/warpcast.json'
-import { FormEvent, useCallback, useState } from 'react'
+import { ChangeEvent, FormEvent, useCallback, useState } from 'react'
 import { mutate } from 'swr'
 import { CreateCastError, CreateCastInput } from '@/app/api/casts/schema'
 import LoadingSpinner from '@/components/loading-spinner'
@@ -24,6 +24,21 @@ export default function CreateForm() {
   const { isSignedIn } = useSIWE()
   const { signer } = useSigner()
   const [state, setState] = useState<State>({ status: 'idle' })
+  const [preview, setPreview] = useState<string>()
+
+  const handleFileSelect = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      const input = event.target
+      if (!input.files?.length) return
+
+      const file = input.files.item(0)
+      if (!file?.type.includes('image/')) return
+
+      const preview = URL.createObjectURL(file)
+      setPreview(preview)
+    },
+    [],
+  )
 
   const handleSubmit = useCallback(
     (event: FormEvent<HTMLFormElement>) => {
@@ -33,6 +48,17 @@ export default function CreateForm() {
         if (signer?.status !== 'approved') return
 
         const body = new FormData(event.currentTarget)
+
+        // TODO: limit file to 4.5 Mb
+        const file = body.get('file')
+        if (typeof file === 'string') {
+          setState({ status: 'error' }) // TODO: error message
+          return
+        }
+
+        if (file) {
+          body.set('filename', file.name)
+        }
 
         const parseResponse = CreateCastInput.safeParse(
           Object.fromEntries(body.entries()),
@@ -79,13 +105,22 @@ export default function CreateForm() {
         {state.status === 'error' && (
           <div className={styles.error}>{state.error?.fieldErrors.text}</div>
         )}
-        <div className={styles.image}>
-          Image upload coming soon! For now, please upload images directly on{' '}
-          <a href="https://imgur.com" target="_blank">
-            Imgur
-          </a>{' '}
-          and paste the image link into the cast body.
-        </div>
+        <label className={styles.label}>
+          <div className={styles.image}>Add Image</div>
+          <input
+            id="file"
+            name="file"
+            type="file"
+            required
+            accept="image/*"
+            className={styles.file}
+            onChange={handleFileSelect}
+          />
+        </label>
+        {preview && (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={preview} alt="preview" className={styles.preview} />
+        )}
         <div className={styles.options}>
           <label className={styles.label}>
             <span>Schedule For</span>

@@ -19,6 +19,7 @@ export const CreateCastInput = z.object({
       message: 'datetime must be in the future',
     }),
   channel: z.string().optional(),
+  filename: z.string().min(1).optional(),
 })
 
 export type CreateCastResponse = Selectable<Cast>

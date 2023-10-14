@@ -16,10 +16,6 @@
   color: var(--error);
 }
 
-.image {
-  color: var(--muted);
-}
-
 .options {
   display: flex;
   gap: 10px;
@@ -34,6 +30,25 @@
   flex: 0 1 50%;
   flex-direction: column;
   gap: 6px;
+}
+
+.image {
+  display: flex;
+  justify-content: center;
+  padding: 2px 6px;
+  cursor: pointer;
+  background: var(--foreground);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.file {
+  display: none;
+}
+
+.preview {
+  height: 250px;
+  object-fit: contain;
 }
 
 .label > span {

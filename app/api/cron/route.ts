@@ -21,6 +21,7 @@ export async function GET(request: Request) {
       const result = await neynarClient.postCast(cast.signer_uuid, cast.text, {
         // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
         parent: cast.channel || undefined,
+        embeds: cast.embed ? [{ url: cast.embed }] : undefined,
       })
 
       return db
