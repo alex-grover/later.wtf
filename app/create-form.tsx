@@ -49,14 +49,18 @@ export default function CreateForm() {
 
         const body = new FormData(event.currentTarget)
 
-        // TODO: limit file to 4.5 Mb
         const file = body.get('file')
         if (typeof file === 'string') {
-          setState({ status: 'error' }) // TODO: error message
+          setState({ status: 'error', message: 'Unknown file type' })
           return
         }
 
         if (file) {
+          if (file.size > 4500000) {
+            setState({ status: 'error', message: 'Maximum file size: 4.5 MB' })
+            return
+          }
+
           body.set('filename', file.name)
         }
 
@@ -165,6 +169,9 @@ export default function CreateForm() {
         >
           {buttonContent(state)}
         </button>
+        {state.status === 'error' && (
+          <div className={styles.message}>{state.message}</div>
+        )}
       </form>
     </>
   )

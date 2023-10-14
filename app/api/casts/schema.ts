@@ -10,6 +10,7 @@ export type GetCastsResponse = (Omit<
   scheduled_for: string
 })[]
 
+// TODO: allow image-only casts
 export const CreateCastInput = z.object({
   text: z.string().min(1).max(320),
   scheduleFor: z

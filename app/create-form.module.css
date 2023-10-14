@@ -82,3 +82,8 @@
   width: 140px;
   padding: 6px 12px;
 }
+
+.message {
+  color: var(--error);
+  text-align: right;
+}
