@@ -40,6 +40,8 @@ export default function NeynarProvider({ children }: PropsWithChildren) {
       setIsLoading(true)
       const response = await fetch('/api/signer')
 
+      // Lazily not checking if we are signed in and just letting the request error,
+      // rather than breaking the circular dependency between this and ConnectKit
       if ([401, 404].includes(response.status)) {
         setSigner(null)
         setIsLoading(false)

@@ -1,6 +1,6 @@
 'use client'
 
-import { useSIWE } from 'connectkit'
+import { useIsMounted, useSIWE } from 'connectkit'
 import channels from 'farcaster-channels#9794f78196418bed5624283ede996f41632e6ea4/warpcast.json'
 import { ChangeEvent, FormEvent, useCallback, useState } from 'react'
 import { mutate } from 'swr'
@@ -20,6 +20,7 @@ type State =
     }
 
 export default function CreateForm() {
+  const isMounted = useIsMounted()
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const { isSignedIn } = useSIWE()
   const { signer } = useSigner()
@@ -163,7 +164,9 @@ export default function CreateForm() {
         <button
           type="submit"
           disabled={
-            !isSignedIn || ['loading', 'success'].includes(state.status)
+            isMounted
+              ? !isSignedIn || ['loading', 'success'].includes(state.status)
+              : false
           }
           className={styles.button}
         >
