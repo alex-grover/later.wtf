@@ -5,6 +5,8 @@ import Casts from './casts'
 import CreateForm from './create-form'
 import styles from './page.module.css'
 
+export const runtime = 'nodejs'
+
 export default function HomePage() {
   return (
     <>
