@@ -116,7 +116,6 @@ export default function CreateForm() {
             id="file"
             name="file"
             type="file"
-            required
             accept="image/*"
             className={styles.file}
             onChange={handleFileSelect}
