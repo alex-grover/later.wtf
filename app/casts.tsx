@@ -3,6 +3,7 @@
 import dayjs from 'dayjs'
 import LocalizedFormat from 'dayjs/plugin/localizedFormat'
 import channels from 'farcaster-channels#9794f78196418bed5624283ede996f41632e6ea4/warpcast.json'
+import Image from 'next/image'
 import { User } from 'neynar-next/server'
 import useSWR from 'swr'
 import useSWRImmutable from 'swr/immutable'
@@ -56,6 +57,7 @@ export default function Casts() {
                 <th className={sharedStyles.date}>Scheduled For</th>
                 <th className={sharedStyles.text}>Text</th>
                 <th className={sharedStyles.channel}>Channel</th>
+                <th className={sharedStyles.image}>Image</th>
                 <th className={sharedStyles.delete}>Delete</th>
               </tr>
             </thead>
@@ -79,6 +81,7 @@ export default function Casts() {
                 <th className={sharedStyles.date}>Posted At</th>
                 <th className={sharedStyles.text}>Text</th>
                 <th className={sharedStyles.channel}>Channel</th>
+                <th className={sharedStyles.image}>Image</th>
                 <th className={styles.link}>Warpcast Link</th>
               </tr>
             </thead>
@@ -97,6 +100,16 @@ export default function Casts() {
                       )}
                       parent_url={cast.channel}
                     />
+                  </td>
+                  <td>
+                    {cast.embed && (
+                      <Image
+                        src={cast.embed}
+                        width={50}
+                        height={50}
+                        alt="cast image"
+                      />
+                    )}
                   </td>
                   <td className={styles.link}>
                     {user && (

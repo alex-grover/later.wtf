@@ -1,6 +1,7 @@
 import dayjs from 'dayjs'
 import channels from 'farcaster-channels#9794f78196418bed5624283ede996f41632e6ea4/warpcast.json'
 import { AlertCircleIcon, CheckCircleIcon, TrashIcon } from 'lucide-react'
+import Image from 'next/image'
 import { useCallback, useState } from 'react'
 import { mutate } from 'swr'
 import { GetCastsResponse } from '@/app/api/casts/schema'
@@ -64,6 +65,11 @@ export default function ScheduledCastRow({ cast }: ScheduledCastRowProps) {
           parent_url={cast.channel}
         />
       </td>
+      <th className={sharedStyles.image}>
+        {cast.embed && (
+          <Image src={cast.embed} width={50} height={50} alt="cast image" />
+        )}
+      </th>
       <td className={sharedStyles.delete}>
         <button onClick={handleDelete} className={styles.button}>
           {buttonContent(state)}
