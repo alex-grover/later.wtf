@@ -16,6 +16,11 @@ const config = {
     config.resolve.fallback = { fs: false, net: false, tls: false }
     return config
   },
+  rewrites: async () =>
+    ['.png', '.gif', '.jpg', '.webp', '.svg'].map((extension) => ({
+      source: `/image/:path(.*)${extension}`,
+      destination: 'https://imagedelivery.net/:path',
+    })),
 }
 
 export default config

@@ -10,6 +10,14 @@ import {
   GetCastsResponse,
 } from './schema'
 
+const extensions: Record<string, string> = {
+  'image/png': '.png',
+  'image/gif': '.gif',
+  'image/webp': '.webp',
+  'image/jpeg': '.jpg',
+  'image/svg+xml': '.svg',
+}
+
 export async function GET(request: NextRequest) {
   const { address } = await Session.fromCookies(request.cookies)
   if (!address) return new Response('Unauthorized', { status: 401 })
@@ -93,7 +101,10 @@ export async function POST(request: NextRequest) {
       variant.endsWith('high'),
     )
     if (!image) return new Response('Image upload failed', { status: 500 })
-    embed = image
+    embed = `${image.replace(
+      'https://imagedelivery.net',
+      'https://later.wtf/image',
+    )}${extensions[file.type]}`
   }
 
   const cast = await db
