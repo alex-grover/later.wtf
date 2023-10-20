@@ -9,7 +9,8 @@ import NeynarProvider from '@/lib/neynar-provider'
 import '@/styles/global.css'
 import '@/styles/theme.css'
 
-export const runtime = 'edge'
+// node:crypto module required by iron-session
+export const runtime = 'nodejs'
 
 export default function RootLayout({ children }: PropsWithChildren) {
   return (

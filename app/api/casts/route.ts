@@ -1,6 +1,7 @@
-import { put } from '@vercel/blob'
 import { NextRequest, NextResponse } from 'next/server'
+import { CloudflareResponse } from '@/lib/cloudflare'
 import db from '@/lib/db'
+import env from '@/lib/env'
 import Session from '@/lib/session'
 import {
   CreateCastError,
@@ -60,15 +61,39 @@ export async function POST(request: NextRequest) {
       status: 422,
     })
 
+  const file = data.get('file')
+  if (typeof file === 'string')
+    return new Response('Invalid file type', {
+      status: 422,
+    })
+
   const { text, scheduleFor, channel, filename } = parseResult.data
 
   let embed: string | undefined = undefined
-  const file = data.get('file')
-  if (file && filename) {
-    const blob = await put(filename, file, {
-      access: 'public',
-    })
-    embed = blob.url
+  if (file) {
+    const form = new FormData()
+    form.append('file', file, filename)
+
+    const response = await fetch(
+      `https://api.cloudflare.com/client/v4/accounts/${env.CLOUDFLARE_ACCOUNT_ID}/images/v1`,
+      {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${env.CLOUDFLARE_TOKEN}`,
+        },
+        body: form,
+      },
+    )
+
+    if (!response.ok)
+      return new Response('Error uploading image', { status: 500 })
+
+    const json = (await response.json()) as CloudflareResponse
+    const image = json.result.variants.find((variant) =>
+      variant.endsWith('high'),
+    )
+    if (!image) return new Response('Image upload failed', { status: 500 })
+    embed = image
   }
 
   const cast = await db

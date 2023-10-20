@@ -6,6 +6,8 @@ const env = createEnv({
     NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID: z.string().min(1),
   },
   server: {
+    CLOUDFLARE_ACCOUNT_ID: z.string().min(1),
+    CLOUDFLARE_TOKEN: z.string().min(1),
     CRON_KEY: z.string().min(1),
     DATABASE_URL: z.string().url(),
     DIRECT_DATABASE_URL: z.string().url().optional(),
