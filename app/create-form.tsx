@@ -56,7 +56,7 @@ export default function CreateForm() {
           return
         }
 
-        if (file) {
+        if (file && file.size !== 0) {
           if (file.size > 4500000) {
             setState({ status: 'error', message: 'Maximum file size: 10 MB' })
             return

@@ -78,7 +78,7 @@ export async function POST(request: NextRequest) {
   const { text, scheduleFor, channel, filename } = parseResult.data
 
   let embed: string | undefined = undefined
-  if (file) {
+  if (file && file.size !== 0) {
     const form = new FormData()
     form.append('file', file, filename)
 
