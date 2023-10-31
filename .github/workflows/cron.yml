@@ -4,6 +4,8 @@ on:
   schedule:
     - cron: '*/5 * * * *'
 
+# GH Actions is very unreliable, there's also a job set up on cron-job.org
+
 jobs:
   cron:
     runs-on: ubuntu-latest
