@@ -22,7 +22,6 @@ async function migrateToLatest() {
     dialect: new NeonDialect({
       // We use a connection pooler for the app in prod, and override the URL with a non-pooled one for running migrations
       connectionString: env.DIRECT_DATABASE_URL ?? env.DATABASE_URL,
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       webSocketConstructor: ws,
     }),
   })
