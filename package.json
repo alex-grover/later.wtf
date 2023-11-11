@@ -20,7 +20,6 @@
   },
   "dependencies": {
     "@alex-grover/styles": "^0.0.1",
-    "@neondatabase/serverless": "^0.6.0",
     "@radix-ui/react-dialog": "^1.0.5",
     "@t3-oss/env-nextjs": "^0.6.1",
     "@vercel/analytics": "^1.0.2",
@@ -29,7 +28,6 @@
     "farcaster-channels#9794f78196418bed5624283ede996f41632e6ea4": "github:neynarxyz/farcaster-channels#9794f78196418bed5624283ede996f41632e6ea4",
     "iron-session": "^6.3.1",
     "kysely": "^0.26.3",
-    "kysely-neon": "^1.3.0",
     "lucide-react": "^0.284.0",
     "next": "latest",
     "next-themes": "1.0.0-beta.0",
@@ -41,7 +39,6 @@
     "swr": "^2.2.4",
     "viem": "^1.15.0",
     "wagmi": "^1.4.3",
-    "ws": "^8.14.2",
     "zod": "^3.22.3"
   },
   "devDependencies": {
@@ -50,6 +47,7 @@
     "@alex-grover/stylelint-config": "^0.0.1",
     "@csstools/postcss-global-data": "^2.1.0",
     "@types/node": "latest",
+    "@types/pg": "^8.10.9",
     "@types/react": "latest",
     "@types/react-dom": "latest",
     "@types/ws": "^8.5.6",

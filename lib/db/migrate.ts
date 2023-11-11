@@ -3,9 +3,13 @@ import path, { dirname } from 'path'
 import { fileURLToPath } from 'url'
 import { createEnv } from '@t3-oss/env-nextjs'
 import 'dotenv/config'
-import { Migrator, FileMigrationProvider, Kysely } from 'kysely'
-import { NeonDialect } from 'kysely-neon'
-import ws from 'ws'
+import {
+  Migrator,
+  FileMigrationProvider,
+  Kysely,
+  PostgresDialect,
+} from 'kysely'
+import { Pool } from 'pg'
 import { z } from 'zod'
 
 async function migrateToLatest() {
@@ -17,12 +21,20 @@ async function migrateToLatest() {
     experimental__runtimeEnv: {},
   })
 
+  // We use a connection pooler for the app in prod, and override the URL with a non-pooled one for running migrations
+  const url = new URL(env.DIRECT_DATABASE_URL ?? env.DATABASE_URL)
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const db = new Kysely<any>({
-    dialect: new NeonDialect({
-      // We use a connection pooler for the app in prod, and override the URL with a non-pooled one for running migrations
-      connectionString: env.DIRECT_DATABASE_URL ?? env.DATABASE_URL,
-      webSocketConstructor: ws,
+    dialect: new PostgresDialect({
+      pool: new Pool({
+        database: url.pathname.slice(1),
+        host: url.hostname,
+        user: url.username,
+        password: url.password,
+        port: parseInt(url.port),
+        max: 1,
+      }),
     }),
   })
 
