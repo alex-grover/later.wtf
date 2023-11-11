@@ -16,23 +16,9 @@ jobs:
           node-version: 18
           cache: 'pnpm'
       - run: pnpm install
-      - uses: neondatabase/create-branch-action@v4
-        with:
-          project_id: throbbing-boat-70555201
-          branch_name: github_actions
-          api_key: ${{ secrets.NEON_API_KEY }}
-        id: create-branch
-      - run: pnpm migrate
-        env:
-          DATABASE_URL: ${{ steps.create-branch.outputs.db_url }}
       - run: pnpm generate
         env:
-          DATABASE_URL: ${{ steps.create-branch.outputs.db_url }}
-      - uses: neondatabase/delete-branch-action@v3
-        with:
-          project_id: ${{ steps.create-branch.outputs.project_id }}
-          branch: ${{ steps.create-branch.outputs.branch_id }}
-          api_key: ${{ secrets.NEON_API_KEY }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
       - run: pnpm check:lint
       - run: pnpm check:format
       - run: pnpm check:styles
