@@ -44,6 +44,9 @@ dependencies:
   neynar-next:
     specifier: ^0.2.5
     version: 0.2.5(next@13.5.3)(react-dom@18.2.0)(react@18.2.0)(viem@1.15.0)
+  pg:
+    specifier: ^8.11.3
+    version: 8.11.3
   react:
     specifier: latest
     version: 18.2.0
@@ -94,9 +97,6 @@ devDependencies:
   '@types/react-dom':
     specifier: latest
     version: 18.2.8
-  '@types/ws':
-    specifier: ^8.5.6
-    version: 8.5.6
   '@typescript-eslint/eslint-plugin':
     specifier: ^6.7.3
     version: 6.7.3(@typescript-eslint/parser@6.7.3)(eslint@8.50.0)(typescript@5.2.2)
@@ -133,9 +133,6 @@ devDependencies:
   lint-staged:
     specifier: ^14.0.1
     version: 14.0.1
-  pg:
-    specifier: ^8.11.3
-    version: 8.11.3
   postcss-flexbugs-fixes:
     specifier: ^5.0.2
     version: 5.0.2(postcss@8.4.31)
@@ -2941,6 +2938,7 @@ packages:
       {
         integrity: sha512-Vvycsc9FQdwhxE3y3DzeIxuEJbWGDsnrxvMADzTDF/lcdR9/K+AQIeAghTQsHtotg/q0j3WEOYS/jQgSdWue3w==,
       }
+    dev: false
 
   /@types/node@20.8.4:
     resolution:
@@ -3072,6 +3070,7 @@ packages:
       }
     dependencies:
       '@types/node': 20.8.2
+    dev: false
 
   /@typescript-eslint/eslint-plugin@6.7.3(@typescript-eslint/parser@6.7.3)(eslint@8.50.0)(typescript@5.2.2):
     resolution:
@@ -4690,7 +4689,6 @@ packages:
         integrity: sha512-a7ZpuTZU1TRtnwyCNW3I5dc0wWNC3VR9S++Ewyk2HHZdrO3CQJqSpd+95Us590V6AL7JqUAH2IwZ/398PmNFgw==,
       }
     engines: { node: '>=4' }
-    dev: true
 
   /buffer@6.0.3:
     resolution:
@@ -8971,7 +8969,6 @@ packages:
       {
         integrity: sha512-HAKu/fG3HpHFO0AA8WE8q2g+gBJaZ9MG7fcKk+IJPLTGAD6Psw4443l+9DGRbOIh3/aXr7Phy0TjilYivJo5XQ==,
       }
-    dev: true
 
   /parent-module@1.0.1:
     resolution:
@@ -9103,7 +9100,6 @@ packages:
         integrity: sha512-xWPagP/4B6BgFO+EKz3JONXv3YDgvkbVrGw2mTo3D6tVDQRh1e7cqVGvyR3BE+eQgAvx1XhW/iEASj4/jCWl3Q==,
       }
     requiresBuild: true
-    dev: true
     optional: true
 
   /pg-connection-string@2.6.2:
@@ -9111,7 +9107,6 @@ packages:
       {
         integrity: sha512-ch6OwaeaPYcova4kKZ15sbJ2hKb/VP48ZD2gE7i1J+L4MspCtBMAx8nMgz7bksc7IojCIIWuEhHibSMFH8m8oA==,
       }
-    dev: true
 
   /pg-int8@1.0.1:
     resolution:
@@ -9119,7 +9114,6 @@ packages:
         integrity: sha512-WCtabS6t3c8SkpDBUlb1kjOs7l66xsGdKpIPZsg4wR+B3+u9UAum2odSsF9tnvxg80h4ZxLWMy4pRjOsFIqQpw==,
       }
     engines: { node: '>=4.0.0' }
-    dev: true
 
   /pg-numeric@1.0.2:
     resolution:
@@ -9138,14 +9132,12 @@ packages:
       pg: '>=8.0'
     dependencies:
       pg: 8.11.3
-    dev: true
 
   /pg-protocol@1.6.0:
     resolution:
       {
         integrity: sha512-M+PDm637OY5WM307051+bsDia5Xej6d9IR4GwJse1qA1DIhiKlksvrneZOYQq42OM+spubpcNYEo2FcKQrDk+Q==,
       }
-    dev: true
 
   /pg-types@2.2.0:
     resolution:
@@ -9159,7 +9151,6 @@ packages:
       postgres-bytea: 1.0.0
       postgres-date: 1.0.7
       postgres-interval: 1.2.0
-    dev: true
 
   /pg-types@4.0.1:
     resolution:
@@ -9198,7 +9189,6 @@ packages:
       pgpass: 1.0.5
     optionalDependencies:
       pg-cloudflare: 1.1.1
-    dev: true
 
   /pgpass@1.0.5:
     resolution:
@@ -9207,7 +9197,6 @@ packages:
       }
     dependencies:
       split2: 4.2.0
-    dev: true
 
   /picocolors@1.0.0:
     resolution:
@@ -9802,7 +9791,6 @@ packages:
         integrity: sha512-VpZrUqU5A69eQyW2c5CA1jtLecCsN2U/bD6VilrFDWq5+5UIEVO7nazS3TEcHf1zuPYO/sqGvUvW62g86RXZuA==,
       }
     engines: { node: '>=4' }
-    dev: true
 
   /postgres-array@3.0.2:
     resolution:
@@ -9818,7 +9806,6 @@ packages:
         integrity: sha512-xy3pmLuQqRBZBXDULy7KbaitYqLcmxigw14Q5sj8QBVLqEwXfeybIKVWiqAXTlcvdvb0+xkOtDbfQMOf4lST1w==,
       }
     engines: { node: '>=0.10.0' }
-    dev: true
 
   /postgres-bytea@3.0.0:
     resolution:
@@ -9836,7 +9823,6 @@ packages:
         integrity: sha512-suDmjLVQg78nMK2UZ454hAG+OAW+HQPZ6n++TNDUX+L0+uUlLywnoxJKDou51Zm+zTCjrCl0Nq6J9C5hP9vK/Q==,
       }
     engines: { node: '>=0.10.0' }
-    dev: true
 
   /postgres-date@2.0.1:
     resolution:
@@ -9854,7 +9840,6 @@ packages:
     engines: { node: '>=0.10.0' }
     dependencies:
       xtend: 4.0.2
-    dev: true
 
   /postgres-interval@3.0.0:
     resolution:
