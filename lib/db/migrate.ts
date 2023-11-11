@@ -9,8 +9,10 @@ import {
   Kysely,
   PostgresDialect,
 } from 'kysely'
-import { Pool } from 'pg'
+import pg from 'pg'
 import { z } from 'zod'
+
+const { Pool } = pg
 
 async function migrateToLatest() {
   const env = createEnv({

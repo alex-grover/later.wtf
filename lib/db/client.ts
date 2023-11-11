@@ -1,7 +1,9 @@
 import { Kysely, PostgresDialect } from 'kysely'
 import { DB } from 'kysely-codegen'
-import { Pool } from 'pg'
+import pg from 'pg'
 import env from '@/lib/env'
+
+const { Pool } = pg
 
 const url = new URL(env.DATABASE_URL)
 
